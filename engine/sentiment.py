@@ -1,12 +1,10 @@
 #!/usr/bin/python
-import sys
+
 import numpy
 from vaderSentiment.vaderSentiment import SentimentIntensityAnalyzer
 
 '''
-	This python script read from standard input and performs
-	sentiment analysis. On EOF, it computes the average,median and
-	std of neg,pos,neu,compound
+
 '''
 class Sentiment:
     
@@ -53,8 +51,8 @@ class Sentiment:
         #print ('average_neg={0:.7f}'.format(numpy.average(neg_list)))
 
     def get_avg_scores(self):
-        return [self.average_neg, self.average_neu,
-                self.average_pos, self.average_compound, self.size]
+        return (self.average_neg, self.average_neu,
+                self.average_pos, self.average_compound, self.size)
 if __name__ == '__main__':
     sentiment = Sentiment()
     sentiment.score(["Hello ","bad"])

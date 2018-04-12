@@ -4,7 +4,7 @@ var host = "http://localhost:5000"
 $(document).ready(function () {
 
     $.getJSON(
-        host+"/data/graph1",
+        host+"/api/graph1",
         function (data) {
     
             Highcharts.chart('graph1', {
@@ -53,14 +53,14 @@ $(document).ready(function () {
                     name: 'Positive News',
                     data: data.pos,
                     color: '#00d4ff',
-                     fillOpacity: 0.1
+                     fillOpacity: 0.3
                 },
                 {
                     type: 'area',
                     name: 'Very Positive News',
-                    data: data.pos,
+                    data: data.vpos,
                     color:'#0000FF',
-                     fillOpacity: 0.1
+                     fillOpacity: 0.3
                 }
                 
                 ]

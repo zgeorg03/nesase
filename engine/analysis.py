@@ -70,7 +70,7 @@ class Analysis:
             
         return very_negative, negative, positive, very_positive        
 if __name__ == '__main__':
-    a = Analysis('data.json',rangee=60*60)
+    a = Analysis('data.json',rangee=60*60*24*7)
     a.stats()
-    vneg, neg = a.get_buckets()
-
+    vneg, neg, pos, vpos = a.get_buckets()
+    print(vneg)

@@ -13,21 +13,21 @@ analysis = None
 
 @app.route("/")
 def index():
-    
-    return redirect("/dashboard")
+    model = {"name":"asdas"}
+    return render_template('index.html',model=model)
+    #return redirect("/dashboard")
 
 @app.route("/dashboard")
 def dashboard():
-    model = {}
+    model = {"name":"asdas"}
     return render_template('dashboard.html',model=model)
 
-@app.route("/data/graph1")    
+
+@app.route("/api/graph1")    
 def graph1():
     data = {}
-    vneg, neg,data['pos'],data['neg'] = analysis.get_buckets()
+    data['vneg'], data['neg'],data['pos'],data['vpos'] = analysis.get_buckets()
 
-    data['vneg'] = vneg
-    data['neg'] = neg
 
     resp = Response(response=json.dumps(data),
                     status=200,
@@ -35,6 +35,6 @@ def graph1():
     return resp
 
 if __name__ == '__main__':
-    analysis = Analysis('data.json',rangee=60*60)
+    analysis = Analysis('data.json',rangee=60*60*24)
     app.run(host="0.0.0.0")
     

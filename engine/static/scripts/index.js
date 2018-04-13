@@ -2,8 +2,6 @@
 var host = "http://localhost:5000"
 
 $(document).ready(function () {
-
-    console.log("Ready")
     
     
 });

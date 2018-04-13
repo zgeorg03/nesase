@@ -13,7 +13,9 @@ app = Flask(__name__)
 def postJsonHandler():
     print (request.is_json)
     content = request.get_json()
-    client = Elasticsearch([{'host': '10.16.3.12', 'port': 9200}])
+#    client = Elasticsearch([{'host': '10.16.3.12', 'port': 9200}])
+    client = Elasticsearch()
+
     ldocs = []
     for article in content:
         
@@ -39,7 +41,8 @@ def postJsonHandler():
                 'score_title':     article['score_title'],
                 'title':     article['title'],
                 'url':     article['url'],
-                'topics':     (', '.join(article['topics']))                
+#                'topics':     (', '.join(article['topics']))    
+                'topics':   article['topics']
                 })
     bulk(client, ldocs)
 
@@ -52,15 +55,65 @@ def welcome():
 @app.route('/createindex')
 def createIndex():
     collectionName="nesase"
-#    client = Elasticsearch()
     
-    client = Elasticsearch([{'host': '10.16.3.12', 'port': 9200}])
+#    client = Elasticsearch([{'host': '10.16.3.12', 'port': 9200}])
+    client = Elasticsearch()
+
     if client.indices.exists(collectionName):
-        return " exist"
+        return "index exist"
     else:
         client.indices.create(index=collectionName, ignore=400)
-        return " created"
+        return "index created"
 
+    
+@app.route('/deleteindex')
+def deleteIndex():
+    collectionName="nesase"
+    client = Elasticsearch()
+    if client.indices.exists(collectionName):
+        client.indices.delete(collectionName)
+        return "index deleted"
+    else:
+        return "index does not exist"
     
  
 app.run(host='0.0.0.0', port= 8090)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

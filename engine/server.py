@@ -6,14 +6,64 @@ from flask import render_template
 from flask import jsonify
 from analysis import Analysis
 import json
+from elasticsearch import Elasticsearch
+from elasticsearch_dsl import Search
+from elasticsearch_dsl.query import Q
+
+
 
 app = Flask(__name__)
 
 analysis = None
 
+def query(quer):
+    client = Elasticsearch()
+    collectionName="nesase"
+    s = Search(using=client, index=collectionName)
+    q = Q('query_string',query=quer)
+    s = s.query(q)
+    total = s.count()
+    s = s[0:total]
+    results = s.execute()
+    return results
+   
+    
+def graphdata():
+    client = Elasticsearch()
+    collectionName="nesase"
+    doc = {
+            'size' : 10000,
+            'query': {
+                'match_all' : {}
+           }
+       }
+    res = client.search(index=collectionName, doc_type='document', body=doc,scroll='1m')
+    very_negative = []
+    negative = []
+    positive = []
+    very_positive = []
+#    for doc in res['hits']['hits']:
+#       id => doc['_id'] , date => doc['_source']['date'] 
+        
+    
+
+
 @app.route("/")
 def index():
-    model = {"name":"asdas"}
+    model={}
+    q = request.args.get('q')
+    if(q):
+        results=query(q)
+#        for hit in results:
+#            print(hit.meta.score, hit.title)
+            
+        model = {"count":"Total results: "+ str(results.hits.total),
+                 "results":results
+                     }
+
+
+
+    
     return render_template('index.html',model=model)
     #return redirect("/dashboard")
 
@@ -35,6 +85,9 @@ def graph1():
     return resp
 
 if __name__ == '__main__':
-    analysis = Analysis('data.json',rangee=60*60*24)
+#    analysis = Analysis('data.json',rangee=60*60*24)
     app.run(host="0.0.0.0")
     
+    
+    
+

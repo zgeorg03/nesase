@@ -10,10 +10,29 @@
 <body>
 
 <h1> Welcome to NeSaSe </h1>
-<a href="/dashboard"> Dashboard </a>
-<button onclick="clickMe()"> Search </button>
-<div id="results" class="col-md-12">
 
+
+<form role="search">
+    <div>
+        <input type="search" id="mySearch" name="q" placeholder="Search Neasase" >
+        <button onclick="clickMe()"> Search </button>
+    </div>
+</form>
+    <div>
+        <p>{{model["count"]}} </p>
+    </div>
+   
+   
+
+
+<div id="results" class="col-md-12">
+    {% for r in model["results"] %}
+        <li>{{r.title}} {{r.meta.score}}</li>
+      
+    {% endfor %}
 </div>
+
+
+
 </body>
 </html>

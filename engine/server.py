@@ -30,6 +30,7 @@ def query(quer):
     
 def graphdata():
     client = Elasticsearch()
+#    client = Elasticsearch([{'host': '10.16.3.12', 'port': 9200}])
     collectionName="nesase"
     doc = {
             'size' : 10000,

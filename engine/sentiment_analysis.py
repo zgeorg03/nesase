@@ -56,7 +56,7 @@ class NewsArticle:
         )
 
 class Parser:
-    def __init__(self,file_in,max_articles,file_out=None):
+    def __init__(self,file_in,max_articles=None,file_out=None):
         self.file_name = file_name
         self.max_articles = max_articles
         self.articles = []
@@ -72,12 +72,16 @@ class Parser:
                     continue
                 self.articles.append(self.parse_news_article(line))
                 count += 1
-                if count >= self.max_articles:
-                    break
+              
+                if self.max_articles:
+                    if count >= self.max_articles:
+                        break
         
         
     def write(self):
-        for article in self.articles:
+        for i,article in enumerate(self.articles):
+            if i % 100 == 0:
+                print('Finished: {} docs'.format(i))
             self.write_article(article)
      
         if self.file_out:
@@ -132,11 +136,13 @@ class Parser:
 
 if __name__ == '__main__':
     
-    file_name = "./log"
-    max_articles = 1000
-    p = Parser(file_name,max_articles,'data.json')
+    file_name = "./log-14-04"
+    #max_articles = 1000
+    p = Parser(file_name,file_out='data2.json')
+    
     p.parse()
     p.write()
+    print('Finished')
  
 
     

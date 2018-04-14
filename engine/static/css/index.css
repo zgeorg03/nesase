@@ -1,0 +1,134 @@
+.loader {
+    border: 16px solid #f3f3f3; /* Light grey */
+    border-top: 16px solid #3498db; /* Blue */
+    border-radius: 50%;
+    display: none;
+    position: fixed;
+    top: 40%;
+    left: 40%;
+    z-index:1000;
+    width: 20vw;
+    height: 20vw;
+    animation: spin 2s linear infinite;
+}
+/* When the body has the loading class, we turn
+   the scrollbar off with overflow:hidden */
+body.loading .loader {
+    overflow: hidden;   
+}
+
+/* Anytime the body has the loading class, our
+   modal element will be visible */
+body.loading .loader {
+    display: block;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+
+.link-very-positive{
+  color:#4CAF50;
+  cursor: pointer
+}
+
+.link-very-positive:hover{
+  color:black
+}
+
+.link-positive{
+  color:#99d8c9;
+  cursor: pointer
+}
+
+.link-positive:hover{
+  color:black
+}
+.link-very-negative{
+  color:#de2d26;
+  cursor: pointer
+}
+
+.link-very-negative:hover{
+  color:black
+}
+
+.link-negative{
+  color:#fc9272;
+  cursor: pointer
+}
+
+.link-negative:hover{
+  color:black
+}
+
+#custom-search-input{
+    padding: 3px;
+    border: solid 1px #E4E4E4;
+    border-radius: 6px;
+    background-color: #fff;
+}
+
+#custom-search-input input{
+    border: 0;
+    box-shadow: none;
+}
+
+#custom-search-input button{
+    margin: 2px 0 0 0;
+    background: none;
+    box-shadow: none;
+    border: 0;
+    color: #666666;
+    padding: 0 8px 0 10px;
+    border-left: solid 1px #ccc;
+}
+
+#custom-search-input button:hover{
+    border: 0;
+    box-shadow: none;
+    border-left: solid 1px #ccc;
+}
+
+#custom-search-input .glyphicon-search{
+    font-size: 23px;
+}
+
+.col-centered{
+float: none;
+margin: 0 auto;
+}
+
+.grad {
+    background: linear-gradient(#7CFC00, #00FF7F);
+}
+
+body{
+font-family: 'Roboto', sans-serif;
+}
+
+
+
+ /* Style the header */
+.header {
+  padding: 10px 16px;
+  background: black;
+
+}
+
+/* Page content */
+.content{ width: 960px; max-width: 100%; margin:0 auto; padding-top: 60px; }
+
+/* The sticky class is added to the header with JS when it reaches its scroll position */
+.sticky {
+  position: fixed;
+  top: 0;
+  width: 100%
+}
+
+/* Add some top padding to the page content to prevent sudden quick movement (as the header gets a new position at the top of the page (position:fixed and top:0) */
+.sticky + .content {
+  padding-top: 322px;
+} 

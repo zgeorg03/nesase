@@ -16,8 +16,9 @@ app = Flask(__name__)
 
 analysis = None
 
+
 def query(quer):
-    client = Elasticsearch()
+    client = Elasticsearch(hosts=["10.16.3.12"])
     collectionName="nesase"
     s = Search(using=client, index=collectionName)
     q = Q('query_string',query=quer)
@@ -61,12 +62,37 @@ def index():
         model = {"count":"Total results: "+ str(results.hits.total),
                  "results":results
                      }
-
-
-
     
     return render_template('index.html',model=model)
     #return redirect("/dashboard")
+
+
+@app.route("/api/query")
+def api_query():
+    q = request.args.get('q')
+    if(q):
+        results=query(q)
+        records = []
+        for hit in results:
+            record = {}
+            record['title'] = hit['title'],
+            record['content'] = hit['content']
+            record['sentiment_score'] = hit['overall_score']
+            record['class_code'] = hit['class_code']
+            record['from']= hit['author']
+            record['link']= hit['url']
+            record['date']= hit['date']
+            records.append(record)
+            
+       
+        model = {
+                 "total": str(results.hits.total),
+                 "records":records
+                }
+        return jsonify(model)
+    return jsonify({"error":"Text needed"})
+   
+    
 
 @app.route("/dashboard")
 def dashboard():

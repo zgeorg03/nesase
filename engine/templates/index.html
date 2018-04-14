@@ -1,38 +1,86 @@
-<html>
+<!DOCTYPE html>
 <head>
 <script src="https://code.jquery.com/jquery-2.2.4.min.js" integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44=" crossorigin="anonymous"></script>
 <script src="https://code.jquery.com/ui/1.12.0/jquery-ui.min.js" integrity="sha256-eGE6blurk5sHj+rmkfsGYeKyZx3M4bG+ZlFyA7Kns7E=" crossorigin="anonymous"></script>
 <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+<link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet"/> 
 
-<script src='{{url_for("static",filename="scripts/index.js")}}'></script>
+<link href='{{url_for("static",filename="css/index.css")}}' rel="stylesheet" />
+
+
 
 </head>
 <body>
 
-<h1> Welcome to NeSaSe </h1>
-
-
-<form role="search">
-    <div>
-        <input type="search" id="mySearch" name="q" placeholder="Search Neasase" >
-        <button onclick="clickMe()"> Search </button>
-    </div>
-</form>
-    <div>
-        <p>{{model["count"]}} </p>
-    </div>
-   
-   
-
-
-<div id="results" class="col-md-12">
-    {% for r in model["results"] %}
-        <li>{{r.title}} {{r.meta.score}}</li>
-      
-    {% endfor %}
+<div class="jumbotron header" style="background:black;color:white;margin-bottom:0px">
+  <h1 style="text-indent:0em">NeSaSe</h1>
+  <p style="text-indent:1em">A News & Sentiment Analytics Search Engine</p>
 </div>
 
+<div  id="myHeader" class="header">
+
+     <nav   class="navbar navbar-inverse " style="background:black;border-radius:0px;border-top:2px solid grey;border-bottom:2px solid grey">
+      <div class="container-fluid" >
+        <div class="navbar-header">  </div>
+        <ul class="nav navbar-nav">
+          <li class="active"><a href="#">Home</a></li>
+          <li><a href="#">Dashboard</a></li>
+        </ul>
+      </div>
+    </nav> 
+
+    <div class="row">
+        <div class="col-md-6 col-centered">
+    		<h2 style="color:white;text-align:center" >Type your question</h2>
+            <div id="custom-search-input">
+                <div class="input-group col-md-12">
+                    <input type="text" class="form-control input-lg"  id="search-text" name="q" placeholder="Syria war" >
+                
+                    <span class="input-group-btn">
+                        <button class="btn btn-info btn-lg" onclick="search()" type="button">
+                            <i class="glyphicon glyphicon-search"></i>
+                        </button>
+                    </span>
+                </div>
+            </div>
+        </div>
+     </div>
+
+</div>
+
+    <div id="content" class="content"> </div>
 
 
+
+
+    <div class="loader"><!-- Place at bottom of page --></div>
+
+    <div id="myModal" class="modal fade bs-example-modal-lg" tabindex='-1'>
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h2 class="modal-title">...</h2>
+                </div>
+
+                <div class="modal-body">
+
+                    <p>Do you want to save changes you made to document before closing?</p>
+                    <p class="text-warning"><small>If you don't save, your changes will be lost.</small></p>
+                </div>
+
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                </div>
+                
+            </div>
+        </div>
+    </div>
+
+
+<!-- Latest compiled and minified JavaScript -->
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+
+<script src='{{url_for("static",filename="scripts/index.js")}}'></script>
 </body>
 </html>

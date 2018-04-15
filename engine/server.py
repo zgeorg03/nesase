@@ -29,6 +29,26 @@ def query(quer):
     return results
    
     
+
+def hotTopics():
+    body = {
+            "size": 0, 
+           "aggs": {
+              "my_fields": {
+                   "terms": {
+                   "field": "topics.keyword",
+                        "size": 5
+                             }
+                            }
+                   }
+           }
+#    client = Elasticsearch()
+    client = Elasticsearch(hosts=["10.16.3.12"])
+    res = client.search(index="nesase", doc_type="document", body=body)
+    
+    for term in res["aggregations"]["my_fields"]["buckets"]:
+        print(term['key']+" "+str(term['doc_count']))
+    
 def graphdata():
     client = Elasticsearch()
 #    client = Elasticsearch([{'host': '10.16.3.12', 'port': 9200}])
@@ -52,6 +72,7 @@ def graphdata():
 
 @app.route("/")
 def index():
+    hotTopics()
     model={}
     q = request.args.get('q')
     if(q):

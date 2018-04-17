@@ -88,7 +88,7 @@ def api_query():
         model = {
                  "total": str(results.hits.total),
                  "records":records
-                }
+                } 
         return jsonify(model)
     return jsonify({"error":"Text needed"})
    

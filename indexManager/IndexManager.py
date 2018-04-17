@@ -13,8 +13,8 @@ app = Flask(__name__)
 def postJsonHandler():
     print (request.is_json)
     content = request.get_json()
-#    client = Elasticsearch([{'host': '10.16.3.12', 'port': 9200}])
-    client = Elasticsearch()
+    client = Elasticsearch([{'host': '10.16.3.12', 'port': 9200}])
+#    client = Elasticsearch()
 
     ldocs = []
     for article in content:
@@ -56,8 +56,8 @@ def welcome():
 def createIndex():
     collectionName="nesase"
     
-#    client = Elasticsearch([{'host': '10.16.3.12', 'port': 9200}])
-    client = Elasticsearch()
+    client = Elasticsearch([{'host': '10.16.3.12', 'port': 9200}])
+#    client = Elasticsearch()
 
     if client.indices.exists(collectionName):
         return "index exist"
@@ -69,7 +69,9 @@ def createIndex():
 @app.route('/deleteindex')
 def deleteIndex():
     collectionName="nesase"
-    client = Elasticsearch()
+#    client = Elasticsearch()
+    client = Elasticsearch([{'host': '10.16.3.12', 'port': 9200}])
+
     if client.indices.exists(collectionName):
         client.indices.delete(collectionName)
         return "index deleted"

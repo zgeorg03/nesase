@@ -27,7 +27,25 @@ body.loading .loader {
     0% { transform: rotate(0deg); }
     100% { transform: rotate(360deg); }
 }
+.days{
+  color:white;
+  font-size:18px;
+}
+.days.big{
+  color:white;
+  font-size:26px;
+}
 
+.link-topic{
+  color:black;
+  cursor: pointer;
+
+}
+
+.link-topic: hover{
+  color:blue;
+
+}
 
 .link-very-positive{
   color:#4CAF50;
@@ -115,11 +133,12 @@ font-family: 'Roboto', sans-serif;
 .header {
   padding: 10px 16px;
   background: black;
+  z-index: 1; position:relative;
 
 }
 
 /* Page content */
-.content{ width: 960px; max-width: 100%; margin:0 auto; padding-top: 60px; }
+.content{ max-width: 100%; margin:0 auto; padding-top: 60px; }
 
 /* The sticky class is added to the header with JS when it reaches its scroll position */
 .sticky {
@@ -132,3 +151,8 @@ font-family: 'Roboto', sans-serif;
 .sticky + .content {
   padding-top: 322px;
 } 
+
+.verticalLine {
+  border-left:  solid 2px #111111;
+
+}

@@ -7,24 +7,44 @@ var requesting = false;
 
 var data = {}
 var date_options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+var days_before = -1;
+
 $(document).ready(function () {
 
     // Get the header
      header =$("#myHeader");
        // Get the offset position of the navbar
      sticky = header.offset().top
- 
+
      
      $('#search-text').keypress(function(e){
       if(e.keyCode==13){
           if(requesting)
               return;
+         
+          var text = $('#search-text').val();
+ 
+          if( 0 === text.length)
+             return;
+        
           requesting = true;
-          search();
+          search(text,"/api/query");
       }
       
     });
     
+    days_before = 5;
+    requesting = true;
+    topics();
+    
+        var text = $('#search-text').val();
+ 
+      if( 0 != text.length){
+         
+          requesting = true;
+          search(text,"/api/query");
+      }
+ 
 });
 
 
@@ -36,32 +56,103 @@ $(document).on({
     ajaxSuccess: function() { $("body").removeClass("loading"); requesting = false; }     
 });
 
-var search = function(){
-     var text = $('#search-text').val();
-    
-     console.log("Query: "+ text );
+
+var topics = function(){
+
+
      
-     var content = $("#content");
+     var content = $("#topics");
 
      content.empty();
          
      data = {};
      
-     //content.append("<div style='text-align:center' class='loader'></div>");
      $.ajax({
-          url: host+"/api/query",
+          url: host+"/api/hotTopics",
+          type: "get", //send it through get method
+          timeout: 8000, // sets timeout to 5 seconds
+          data: { 
+            d: days_before
+          },
+          success: function(response) {
+      
+           body = $("<div class='row' style='text-align:right'></div>")
+                          
+  
+           total = response.total 
+           
+           if(total == 0){
+               var element = $('<h1></h1>')
+               element.html("There no topics")
+               body.append(element)
+      
+               
+           }else{
+              
+              var title_element = $('<h1>Hot Topics</h1>')
+              body.append(title_element);                      
+              for (var index = 0; index < response.length; ++index) {
+              
+                    record = response[index];
+                    
+                    //console.log(record)
+                    name = record.name
+                    count = record.count
+     
+                    
+                    var title_element = $('<h3></h3>')
+                      
+                    title_element.html(name+'<span class="badge badge-dark">'+count+'</span>')
+                    title_element.on('click',{topic:name},searchTopic)
+                    title_element.addClass("link-topic")
+             
+                    
+       
+                    body.append(title_element);
+
+              }
+             
+                           
+           }
+           
+           body.removeClass("loading")
+
+           
+           content.append(body);
+          },
+          error: function(xhr) {
+            //Do Something to handle error
+            console.log(xhr)
+          }
+        });
+     
+    
+}
+
+var search = function(text,query){
+
+     var content = $("#news");
+
+     content.empty();
+         
+     data = {};
+     
+     $.ajax({
+          url: host+query,
           type: "get", //send it through get method
           data: { 
-            q: text
+            q: text,
+            d: days_before
          
           },
-          timeout: 5000, // sets timeout to 5 seconds
+          timeout: 8000, // sets timeout to 5 seconds
           success: function(response) {
-           console.log(response)
+         
            cheader = $("<div class='row'> </div>")
            body = $("<div class='row'> </div>")
            
            total = response.total 
+           retrieved= response.retrieved 
            
            if(total == 0){
                var element = $('<h1></h1>')
@@ -97,7 +188,7 @@ var search = function(){
            
                     
                     title_element.html(record.title)
-                    title_element.on('click',{index:index},f)
+                    title_element.on('click',{index:index},showModal)
                     
                     container.append(title_element)
                     
@@ -109,7 +200,7 @@ var search = function(){
                     body.append(container);
                     data[index] = record;
               }
-              cheader.html("Found "+ total +" results")
+              cheader.html("Found "+ total +" results. Retrieved top "+retrieved)
                            
            }
            
@@ -123,11 +214,17 @@ var search = function(){
             console.log(xhr)
           }
         });
-     
-     $("#results").add("<h1>Test</h1>")
 }
 
-function f(event){
+function searchTopic(event){
+   topic = event.data.topic
+   if(requesting)
+      return;
+
+   requesting = true;
+   search(topic,"/api/queryTopic");
+}
+function showModal(event){
     index = event.data.index
     record = data[index];
     
@@ -159,3 +256,29 @@ function updateScroll() {
     header.removeClass("sticky");
   }
 } 
+
+
+function update(d){
+  id = 'd'+d;
+
+  $(".days").each(function( index ) {
+      $(this).removeClass('big') ;
+    });
+  var el = $("#"+id)
+  el.addClass('big')
+  
+  days_before = d;
+  if(requesting)
+      return;
+  requesting = true;   
+  topics();
+  
+
+   var text = $('#search-text').val();
+     
+      if( 0 === text.length)
+         return;
+    
+      requesting = true;
+      search(text,"/api/query");
+}

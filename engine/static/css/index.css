@@ -30,10 +30,32 @@ body.loading .loader {
 .days{
   color:white;
   font-size:18px;
+  cursor: pointer;
 }
+.days:hover{
+  color:yellow;
+
+
+}
+
 .days.big{
   color:white;
   font-size:26px;
+  cursor: pointer;
+}
+.days.big:hover{
+  color:yellow;
+  
+}
+
+
+.sent{
+  /**color:white; **/
+  font-size:22px;
+}
+.sent.big{
+  /**color:white;**/
+  font-size:28px;
 }
 
 .link-topic{
@@ -55,6 +77,16 @@ body.loading .loader {
 .link-very-positive:hover{
   color:black
 }
+.link-very-positive-w{
+  color:#4CAF50;
+  cursor: pointer
+}
+
+.link-very-positive-w:hover{
+  color:white
+}
+
+
 
 .link-positive{
   color:#99d8c9;
@@ -64,14 +96,16 @@ body.loading .loader {
 .link-positive:hover{
   color:black
 }
-.link-very-negative{
-  color:#de2d26;
+
+.link-positive-w{
+  color:#99d8c9;
   cursor: pointer
 }
 
-.link-very-negative:hover{
-  color:black
+.link-positive-w:hover{
+  color:white
 }
+
 
 .link-negative{
   color:#fc9272;
@@ -81,6 +115,40 @@ body.loading .loader {
 .link-negative:hover{
   color:black
 }
+
+
+.link-negative-w{
+  color:#fc9272;
+  cursor: pointer
+}
+
+.link-negative-w:hover{
+  color:white
+}
+
+
+
+.link-very-negative{
+  color:#de2d26;
+  cursor: pointer
+}
+.link-very-negative-w{
+  color:#de2d26;
+  cursor: pointer
+}
+
+
+
+
+.link-very-negative:hover{
+  color:black
+}
+.link-very-negative-w:hover{
+  color:white
+}
+
+
+
 
 #custom-search-input{
     padding: 3px;

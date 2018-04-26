@@ -25,20 +25,23 @@ connected = False
 analysis = None
 day = 60*60*24
 
-def query(quer,days=None):
+def query(quer,days=None,sent=None):
 
-
+    s = Search(using=client, index=collectionName)
+    
     if days and days != "-1":
 
         days = int(days)
         now = int(time.time())
         last = now - days * day
 
-        s = Search(using=client, index=collectionName).filter('range', date={'gte': last, 'lte': now})
-    else:
-        s = Search(using=client, index=collectionName)
+        s = s.filter('range', date={'gte': last, 'lte': now})
 
-        
+    
+    if sent and sent != "-1":
+        s = s.filter('term', class_code=int(sent))
+    
+
     
     q = Q('query_string',query=quer)
     s = s.query(q)
@@ -55,9 +58,24 @@ def query(quer,days=None):
    
 
 
-def queryTopic(topic):
-
+def queryTopic(topic,days=None,sent=None):
+    
     s = Search(using=client, index=collectionName)
+    
+    if days and days != "-1":
+
+        days = int(days)
+        now = int(time.time())
+        last = now - days * day
+
+        s = s.filter('range', date={'gte': last, 'lte': now})
+
+    
+    if sent and sent != "-1":
+        s = s.filter('term', class_code=int(sent))
+  
+       
+
     q = Q('query_string',query=topic, default_field="topics.keyword")
     s = s.query(q)
 
@@ -141,8 +159,9 @@ def index():
 def api_query():
     q = request.args.get('q')
     d = request.args.get('d')
+    s = request.args.get('s')
     if(q):
-        results = query(q,d)
+        results = query(q,d,s)
         records = []
         for hit in results:
             record = {}
@@ -169,8 +188,10 @@ def api_query():
 @app.route("/api/queryTopic")
 def api_query_topic():
     q = request.args.get('q')
+    d = request.args.get('d')
+    s = request.args.get('s')
     if(q):
-        results = queryTopic(q)
+        results = queryTopic(q,d,s)
         records = []
         for hit in results:
             record = {}
@@ -328,9 +349,9 @@ def worker(data_file=None,start=0,end=-1):
 if __name__ == '__main__':
     
     configs = {
-            'data_file':"./data2.json",
-            'start':0,
-            'end':0
+            'data_file':"./data-26-04.json",
+            'start':13000,
+            'end':-1
             }
     
 #    analysis = Analysis('data.json',rangee=60*60*24)

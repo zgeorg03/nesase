@@ -6,8 +6,9 @@ var requesting = false;
 
 
 var data = {}
-var date_options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+var date_options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' ,time:'numeric', timeZone: 'UTC' };
 var days_before = -1;
+var sent = -1;
 
 $(document).ready(function () {
 
@@ -33,7 +34,7 @@ $(document).ready(function () {
       
     });
     
-    days_before = 5;
+  
     requesting = true;
     topics();
     
@@ -72,7 +73,8 @@ var topics = function(){
           type: "get", //send it through get method
           timeout: 8000, // sets timeout to 5 seconds
           data: { 
-            d: days_before
+            d: days_before,
+            s: sent
           },
           success: function(response) {
       
@@ -142,7 +144,8 @@ var search = function(text,query){
           type: "get", //send it through get method
           data: { 
             q: text,
-            d: days_before
+            d: days_before,
+            s: sent
          
           },
           timeout: 8000, // sets timeout to 5 seconds
@@ -168,6 +171,7 @@ var search = function(text,query){
                     
                     //console.log(record)
                     class_code = record.class_code
+                  
                     
                     var container = $("<div class='row'></div>")
                     
@@ -194,7 +198,8 @@ var search = function(text,query){
                     
                     // DATE
                     date = new Date(record.date*1000)
-                    date_element = $('<h3>'+date.toLocaleString("en-US",date_options)+'</h3>')
+               
+                    date_element = $('<h3>'+date.toLocaleString("en-US",date_options)+" "+ date.toLocaleTimeString("en-US",{ timeZone: 'UTC'})+'</h3>')
                     container.append(date_element)
                     
                     body.append(container);
@@ -239,8 +244,11 @@ function showModal(event){
     
     
     
-    content.html(record.content)
-    
+  
+    content.append('<p>'+record.content+'</p>')
+    content.append('<br>')
+    content.append('<a href="'+record.link+'" target="_blank">'+record.link+'</a>')
+     // link = record.link
     modal.modal('show');
 }
 
@@ -275,10 +283,35 @@ function update(d){
   
 
    var text = $('#search-text').val();
-     
-      if( 0 === text.length)
-         return;
-    
-      requesting = true;
-      search(text,"/api/query");
+ 
+   if( 0 === text.length)
+     return;
+
+   requesting = true;
+   search(text,"/api/query");
+}
+
+function updateS(d){
+  id = 's'+d;
+
+  $(".sent").each(function( index ) {
+      $(this).removeClass('big') ;
+    });
+  var el = $("#"+id)
+  el.addClass('big')
+  
+  sent = d;
+  if(requesting)
+      return;
+  requesting = true;   
+  topics();
+  
+
+   var text = $('#search-text').val();
+ 
+   if( 0 === text.length)
+     return;
+
+   requesting = true;
+   search(text,"/api/query");
 }

@@ -136,9 +136,9 @@ class Parser:
 
 if __name__ == '__main__':
     
-    file_name = "./log-14-04"
+    file_name = "./log"
     #max_articles = 1000
-    p = Parser(file_name,file_out='data2.json')
+    p = Parser(file_name,file_out='data-26-04.json')
     
     p.parse()
     p.write()

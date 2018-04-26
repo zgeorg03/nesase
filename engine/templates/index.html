@@ -30,7 +30,16 @@
     </nav> 
 
     <div class="row">
-        <div class="col-xs-offset-2 col-xs-6">
+       <div class="col-xs-offset-1 col-xs-2">
+            <ul class="">
+              <li id="s4" class="sent link-very-negative-w" onclick="updateS(4)">Very Negative  </li>
+              <li id="s3" class="sent link-negative-w" onclick="updateS(3)">Negative </li>
+              <li id="s2" class="sent link-positive-w" onclick="updateS(2)">Positive </li>
+              <li id="s1" class="sent link-very-positive-w" onclick="updateS(1)">Very Positive </li>
+          
+            </ul>
+        </div>
+        <div class="col-xs-5">
     		<h2 style="color:white;text-align:center" >Type your question</h2>
             <div id="custom-search-input">
                 <div class="input-group col-md-12">
@@ -46,13 +55,13 @@
         </div>
         <div class="col-xs-offset-1 col-xs-3">
             <ul class="">
-              <li id="d1" class="days" onclick="update(1)" style="color:white;">Last Day </li>
-              <li id="d2" class="days" onclick="update(2)" style="color:white;">Last 2 Days </li>
-              <li id="d7" class="days" onclick="update(7)" style="color:white;">Last Week </li>
-              <li id="d15" class="days" onclick="update(15)" style="color:white;">Last 15 days </li>
-              <li id="d30" class="days" onclick="update(30)" style="color:white;">Last Month </li>
-              <li id="d91" class="days" onclick="update(91)" style="color:white;">Last 3 Months </li>
-              <li id="d-1" class="days" onclick="update(-1)" style="color:white;">From the begining</li>
+              <li id="d1" class="days" onclick="update(1)" >Last Day </li>
+              <li id="d2" class="days" onclick="update(2)">Last 2 Days </li>
+              <li id="d7" class="days" onclick="update(7)" >Last Week </li>
+              <li id="d15" class="days" onclick="update(15)" >Last 15 days </li>
+              <li id="d30" class="days" onclick="update(30)" >Last Month </li>
+              <li id="d91" class="days" onclick="update(91)" >Last 3 Months </li>
+              <li id="d-1" class="days" onclick="update(-1)" >From the begining</li>
             </ul>
         </div>
      </div>

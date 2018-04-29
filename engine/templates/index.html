@@ -23,7 +23,7 @@
       <div class="container-fluid" >
         <div class="navbar-header">  </div>
         <ul class="nav navbar-nav">
-          <li class="active" style="color:white;font-size:24px">Search through <span style="color:yellow;font-size:26px"> {{model.count}} </span> documents</li>
+          <li class="active" style="color:white;font-size:24px">Search through <span style="font-style:oblique;font-size:26px"> {{model.count}} </span> documents</li>
  
         </ul>
       </div>
@@ -36,11 +36,11 @@
               <li id="s3" class="sent link-negative-w" onclick="updateS(3)">Negative </li>
               <li id="s2" class="sent link-positive-w" onclick="updateS(2)">Positive </li>
               <li id="s1" class="sent link-very-positive-w" onclick="updateS(1)">Very Positive </li>
-          
+              <li id="s-1" class="sent link-reset-w big" onclick="updateS(-1)">Reset </li>
             </ul>
         </div>
         <div class="col-xs-5">
-    		<h2 style="color:white;text-align:center" >Type your question</h2>
+    		<h2 style="color:white;text-align:center" >Search</h2>
             <div id="custom-search-input">
                 <div class="input-group col-md-12">
                     <input type="text" class="form-control input-lg"  id="search-text" name="q" placeholder="Syria war" >
@@ -61,7 +61,7 @@
               <li id="d15" class="days" onclick="update(15)" >Last 15 days </li>
               <li id="d30" class="days" onclick="update(30)" >Last Month </li>
               <li id="d91" class="days" onclick="update(91)" >Last 3 Months </li>
-              <li id="d-1" class="days" onclick="update(-1)" >From the begining</li>
+              <li id="d-1" class="days big" onclick="update(-1)" >From the begining</li>
             </ul>
         </div>
      </div>

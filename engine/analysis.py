@@ -115,7 +115,104 @@ class Analysis:
             self.hourly_labels.append(str(index).zfill(2))
         return np.array(res)
     
-    
+    def weekday_stats(self):
+        buckets = {}
+        for record in self.data:
+            
+            time = record['date']
+            
+            if time < self.skip:
+                continue
+            date = dt.fromtimestamp(time).weekday()
+            if date in buckets:
+                buckets[date].append(record)
+            else:
+                buckets[date] = [record]
+        res = []
+        
+        for i,key in enumerate(buckets):
+            val = buckets[key]
+            vn,n,p,vp = 0,0,0,0
+            for record in val:
+            
+                if record['class_code'] == 4:
+                    vn+= 1
+                if record['class_code'] == 3:
+                    n+= 1
+                if record['class_code'] == 2:
+                    p+= 1
+                if record['class_code'] == 1:
+                    vp+= 1  
+                    
+            
+            
+            res.append([key,vn,n,p,vp])   
+        
+        self.weekday_labels = []
+        for d in week:
+            self.weekday_labels.append(d)
+            
+        res.sort(key=lambda x: x[0])
+        res = np.array(res)
+        return np.array(res)  
+    def weekday_plots(self):
+             
+        self.weekday_stats = self.weekday_stats()
+        self.weekday_counts_plot()
+        self.weekday_perc_plot()
+        
+    def weekday_counts_plot(self):
+        data = self.weekday_stats
+        labels = self.weekday_labels
+
+        fig,ax = plt.subplots(figsize=self.plots_size)
+        ind = np.arange(len(labels))
+        ax.bar(ind,data[:,1],color='#e6194b',label='Very Negative')
+        ax.bar(ind,data[:,2],color='#fabebe',bottom=data[:,1],label='Negative')
+        ax.bar(ind,data[:,3],color='#aaffc3',bottom=data[:,2]+data[:,1],label='Positive')
+        ax.bar(ind,data[:,4],color='#3cb44b',bottom=data[:,3]+data[:,2]+data[:,1],label='Very Positive')
+        ax.set_xlabel('Day')
+        ax.set_ylabel('Count')
+        ax.set_xticks(ind,labels)
+        plt.title('Week Day counts of each sentiment class')
+        plt.xticks(ind,labels)
+        ax.legend()
+        
+        path = os.path.join(self.plots_path,'weekday_counts.png')
+        print('Plot saved in '+path)
+        plt.savefig(path,format='png')
+        
+    def weekday_perc_plot(self):
+        labels = self.weekday_labels
+
+        data = []
+        for r in self.weekday_stats:
+            d,vn,n,p,vp = r
+            print(d,vn,n)
+            t = vn+n+p+vp
+            vn,n,p,vp = vn/t*100, n/t*100, p/t*100, vp/t*100
+            data.append([d,vn,n,p,vp])
+        data = np.array(data)
+            
+          # Percentage Plot
+        fig,ax = plt.subplots(figsize=self.plots_size)
+        ind = np.arange(len(labels))
+
+        ax.bar(ind,data[:,1],color='#e6194b',label='Very Negative')
+        ax.bar(ind,data[:,2],color='#fabebe',bottom=data[:,1],label='Negative')
+        ax.bar(ind,data[:,3],color='#aaffc3',bottom=data[:,2]+data[:,1],label='Positive')
+        ax.bar(ind,data[:,4],color='#3cb44b',bottom=data[:,3]+data[:,2]+data[:,1],label='Very Positive')
+        ax.set_ylim([0,100])
+        ax.set_xlabel('Day') 
+        ax.set_ylabel('Percentage')
+        plt.title('Week Day percentage of each sentiment class')   
+        plt.xticks(ind,labels)
+        ax.legend()
+  
+        path = os.path.join(self.plots_path,'weekday_perc_counts.png')
+        print('Plot saved in '+path)
+        plt.savefig(path,format='png')
+        
     def hourly_plots(self):
              
         self.hourly_stats = self.hourly_stats()
@@ -139,9 +236,9 @@ class Analysis:
         plt.xticks(ind,labels)
         ax.legend()
         
-        path = os.path.join(self.plots_path,'hourly_counts.svg')
+        path = os.path.join(self.plots_path,'hourly_counts.png')
         print('Plot saved in '+path)
-        plt.savefig(path,format='svg') 
+        plt.savefig(path,format='png') 
    
     def hourly_perc_plot(self):
         labels = self.hourly_labels
@@ -170,12 +267,12 @@ class Analysis:
         plt.xticks(ind,labels)
         ax.legend()
   
-        path = os.path.join(self.plots_path,'hourly_perc_counts.svg')
+        path = os.path.join(self.plots_path,'hourly_perc_counts.png')
         print('Plot saved in '+path)
-        plt.savefig(path,format='svg')
+        plt.savefig(path,format='png')
             
     def daily_plots(self):
-        self.daily_stats = self.daily_stats()     
+        self.daily_stats = self.daily_stats()    
         self.daily_counts_plot();
         self.daily_perc_plot();  
         
@@ -196,9 +293,9 @@ class Analysis:
         plt.xticks(ind,labels)
         ax.legend()
         
-        path = os.path.join(self.plots_path,'daily_counts.svg')
+        path = os.path.join(self.plots_path,'daily_counts.png')
         print('Plot saved in '+path)
-        plt.savefig(path,format='svg')
+        plt.savefig(path,format='png')
         
     def daily_perc_plot(self):
         labels = self.daily_labels
@@ -206,12 +303,11 @@ class Analysis:
         data = []
         for r in self.daily_stats:
             d,vn,n,p,vp = r
-            print(d,vn,n)
             t = vn+n+p+vp
             vn,n,p,vp = vn/t*100, n/t*100, p/t*100, vp/t*100
             data.append([d,vn,n,p,vp])
         data = np.array(data)
-            
+        #rint(data)
           # Percentage Plot
         fig,ax = plt.subplots(figsize=self.plots_size)
         ind = np.arange(len(labels))
@@ -227,15 +323,17 @@ class Analysis:
         plt.xticks(ind,labels)
         ax.legend()
   
-        path = os.path.join(self.plots_path,'daily_perc_counts.svg')
+        path = os.path.join(self.plots_path,'daily_perc_counts.png')
         print('Plot saved in '+path)
-        plt.savefig(path,format='svg')
+        plt.savefig(path,format='png')
         
          
 if __name__ == '__main__':
    
-    a = Analysis('data.json')
-    a.hourly_plots()
+    a = Analysis('data-26-04.json')
     a.daily_plots()
+    #a.weekday_plots()
+    #a.hourly_plots()
+
   
   

@@ -4,7 +4,7 @@ This frameworks allows the user to query news articles based on their sentiment.
 
 ## Demo
 
-![Demo Dashboard](https://raw.githubusercontent.com/zgeorg03/nesase/master/demo.png)
+![Demo Dashboard](https://github.com/zgeorg03/nesase/blob/master/demo.png)
 
 
 ## Implementation Details

@@ -6,6 +6,7 @@ This frameworks allows the user to query news articles based on their sentiment.
 
 ![Demo Dashboard](https://raw.githubusercontent.com/zgeorg03/nesase/master/demo.png)
 
+
 ## Implementation Details
 The are two main modules in this framework. The engine and the crawler.
 

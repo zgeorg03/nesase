@@ -2,9 +2,14 @@
 
 This frameworks allows the user to query news articles based on their sentiment.Sentiment Analysis is a technique used for determining the overall emotional reaction to a document, interaction or an event. In our case with news articles, by analysing the sentiment of the article's text, we can tell whether it expresses a positive, negative or neutral feeling to the reader.
 
+## Demo
+
+![Demo Dashboard](https://raw.githubusercontent.com/zgeorg03/nesase/master/demo.png)
+
+## Implementation Details
 The are two main modules in this framework. The engine and the crawler.
 
-## Engine
+### Engine
 A RESTfull service for querying through the Elasticsearch engine implemented in  python: **server.py**
 
 After receiving a news article from the crawler, it performs the sentiment analysis and then indexes the analyzed article using the functionality of the ElasticSearch engine. 
